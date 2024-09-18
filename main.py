@@ -1,5 +1,5 @@
 from src.hh_api import HeadHunterAPI
-from src.vacancy_storage import JSONSaver
+from src.vacancy_saver import JSONSaver
 from src.utils import get_top_vacancies, get_vacancies_by_salary_from
 from src.vacancy import Vacancy
 

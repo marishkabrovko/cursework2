@@ -3,8 +3,14 @@ class Vacancy:
 
     __slots__ = ("name", "url", "requirement", "responsibility", "salary")
 
-    def __init__(self, name: str, url: str, requirement: str, responsibility: str,
-                 salary: int | None = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        url: str,
+        requirement: str,
+        responsibility: str,
+        salary: int | None = None,
+    ) -> None:
         """Инициализатор класса Vacancy"""
         self.name = name
         self.url = url
