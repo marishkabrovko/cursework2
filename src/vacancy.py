@@ -1,30 +1,56 @@
 class Vacancy:
-    """Класс для описания вакансий"""
+    """Класс для представления вакансий"""
 
-    name: str  # Название вакансии
-    area: str  # Населенный пункт
-    url: str  # Ссылка на вакансию
-    description: str  # Описание
-    salary_from: float | str  # Зарплата от,,,
-    salary_to: float | str  # Зарплата до ,,,
+    __slots__ = ("name", "url", "requirement", "responsibility", "salary")
 
-    __slots__ = ("name", "area", "url", "salary_from", "salary_to", "description")
+    def __init__(self, name: str, url: str, requirement: str, responsibility: str,
+                 salary: int | None = None) -> None:
+        """Инициализатор класса Vacancy"""
+        self.name = name
+        self.url = url
+        self.requirement = requirement
+        self.responsibility = responsibility
+        self.salary = self.__salary_validation(salary)
 
-    def __init__(self, name: str, area: str, url: str, salary_from: str, salary_to: str, description: str) -> None:
-        self.name: str = name
-        self.area: str = area
-        self.url: str = url
-        self.salary_from: str = salary_from if salary_from else "0"
-        self.salary_to: str = salary_to if salary_to else "0"
+    @staticmethod
+    def __salary_validation(salary: int | float | None) -> int | float | None:
+        """Валидация зарплаты"""
+        if salary:
+            return salary
+        return 0
 
-        self.description: str = description
+    @classmethod
+    def cast_to_object_list(cls, vacancies: list[dict]) -> list["Vacancy"]:
+        """Возвращает список экземпляров Vacancy из списка словарей"""
+
+        return [cls(**vac) for vac in vacancies]
 
     def __str__(self) -> str:
-        return f"{self.name}, {self.area}, Зарплата: от {self.salary_from} до {self.salary_to}, Ссылка: {self.url}"
+        """Метод строкового предсиавления вакансий"""
 
-    def __lt__(self, other: "Vacancy") -> bool:
-        return int(self.salary_to) < int(other.salary_to)
+        return (
+            f"{self.name} (Зарплата: {self.salary if self.salary else 'не указана'}).\n"
+            f"Требования: {self.requirement}.\nОбязанности: {self.responsibility}.\nСсылка на вакансию: {self.url}"
+        )
 
-    def validate(self) -> None:
-        if not self.name or not self.url:
-            raise ValueError("Название и ссылка на вакансию обязательны.")
+    def __eq__(self, other) -> bool:
+        """Метод сравнения вакансий (=)"""
+        return self.salary == other.salary
+
+    def __lt__(self, other) -> bool:
+        """Метод сравнения вакансий (<)"""
+        return self.salary < other.salary
+
+    def __le__(self, other) -> bool:
+        """Метод сравнения вакансий (<=)"""
+        return self.salary <= other.salary
+
+    def to_dict(self) -> dict:
+        """Возвращает словарь с данными о вакансии из экземпляра класса Vacancy"""
+        return {
+            "name": self.name,
+            "url": self.url,
+            "requirement": self.requirement,
+            "responsibility": self.responsibility,
+            "salary": self.salary,
+        }
