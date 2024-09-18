@@ -26,7 +26,7 @@ class Vacancy:
         return [cls(**vac) for vac in vacancies]
 
     def __str__(self) -> str:
-        """Метод строкового предсиавления вакансий"""
+        """Метод строкового предсnавления вакансий"""
 
         return (
             f"{self.name} (Зарплата: {self.salary if self.salary else 'не указана'}).\n"
