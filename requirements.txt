@@ -3,4 +3,3 @@ mypy
 requests
 python-dotenv
 pytest
-
